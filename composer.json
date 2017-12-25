@@ -1,0 +1,38 @@
+{
+  "name": "piobuddev/repositorytester",
+  "description": "Helper for repositories tests",
+  "keywords": [
+    "testing"
+  ],
+  "authors": [
+    {
+      "name": "Piotr Budny",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php" : "^7.1",
+    "phpunit/phpunit": "^6.5",
+    "phpunit/dbunit": "^3.0",
+    "fzaninotto/faker": "^1.7"
+  },
+  "autoload": {
+    "psr-0": {
+      "RepositoryTester\\": "src/"
+    }
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^0.8.5",
+    "squizlabs/php_codesniffer": "*"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "RepositoryTester\\Test\\": ["tests/Integration", "tests/Unit", "tests"]
+    }
+  },
+  "scripts": {
+    "phpstan": "vendor/bin/phpstan analyse -l 7 src tests",
+    "phpcs": "vendor/bin/phpcs --standard=PSR2 --extensions=php --colors --severity=1 src",
+    "phpcbf": "vendor/bin/phpcbf --standard=PSR2 --extensions=php --colors --severity=1 src"
+  }
+}
