@@ -8,17 +8,28 @@ use RepositoryTester\Repository\RepositoryAwareTrait;
 
 class RepositoryAwareTraitTest extends TestCase
 {
+    /**
+     * @var \PHPUnit\Framework\MockObject\MockObject|\RepositoryTester\Repository\RepositoryAwareTrait
+     */
     private $cut;
 
+    /**
+     * @var \RepositoryTester\Repository\Connection\ConnectionInterface|\PHPUnit\Framework\MockObject\MockObject
+     */
     private $connection;
 
     protected function setUp()
     {
         parent::setUp();
 
-        $this->connection = $this->createMock(ConnectionInterface::class);
-        $this->cut        = $this->getMockForTrait(RepositoryAwareTrait::class);
-        $this->cut->setConnection($this->connection);
+        /** @var \RepositoryTester\Repository\Connection\ConnectionInterface $connection */
+        $connection = $this->createMock(ConnectionInterface::class);
+        /** @var \RepositoryTester\Repository\RepositoryAwareTrait $cut */
+        $cut = $this->getMockForTrait(RepositoryAwareTrait::class);
+        $cut->setConnection($connection);
+
+        $this->cut        = $cut;
+        $this->connection = $connection;
     }
 
     public function testClearTablesCallsConnectionClear()

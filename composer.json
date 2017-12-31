@@ -31,8 +31,13 @@
     }
   },
   "scripts": {
-    "phpstan": "vendor/bin/phpstan analyse -l 7 src tests",
+    "phpstan": "vendor/bin/phpstan analyse -l 7 src tests -c phpstan.neon",
     "phpcs": "vendor/bin/phpcs --standard=PSR2 --extensions=php --colors --severity=1 src",
-    "phpcbf": "vendor/bin/phpcbf --standard=PSR2 --extensions=php --colors --severity=1 src"
+    "phpcbf": "vendor/bin/phpcbf --standard=PSR2 --extensions=php --colors --severity=1 src",
+    "test": [
+      "@phpstan",
+      "@phpcs",
+      "phpunit"
+    ]
   }
 }

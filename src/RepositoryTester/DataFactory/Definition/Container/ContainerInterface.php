@@ -12,4 +12,10 @@ interface ContainerInterface
      * @return \RepositoryTester\DataFactory\Definition\DefinitionInterface
      */
     public function get(string $identifier): DefinitionInterface;
+
+    /**
+     * @param string              $identifier
+     * @param DefinitionInterface $definition
+     */
+    public function add(string $identifier, DefinitionInterface $definition): void;
 }
