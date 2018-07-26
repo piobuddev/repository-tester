@@ -108,4 +108,20 @@ class DbUnitConnectionAdapter extends DefaultConnection implements ConnectionInt
 
         return $result;
     }
+
+    /**
+     * @return void
+     */
+    public function disableForeignKeys(): void
+    {
+        $this->connection->exec('SET FOREIGN_KEY_CHECKS=0;');
+    }
+
+    /**
+     * @return void
+     */
+    public function enableForeignKeys(): void
+    {
+        $this->connection->exec('SET FOREIGN_KEY_CHECKS=1;');
+    }
 }

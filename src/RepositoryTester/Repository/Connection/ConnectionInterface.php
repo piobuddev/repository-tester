@@ -38,4 +38,14 @@ interface ConnectionInterface
      * @return \RepositoryTester\Repository\Connection\ConnectionInterface
      */
     public function clear(array $entities = null): ConnectionInterface;
+
+    /**
+     * @return void
+     */
+    public function disableForeignKeys(): void;
+
+    /**
+     * @return void
+     */
+    public function enableForeignKeys(): void;
 }

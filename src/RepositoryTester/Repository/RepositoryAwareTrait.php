@@ -61,6 +61,22 @@ trait RepositoryAwareTrait
     }
 
     /**
+     * @return void
+     */
+    public function disableForeignKeys(): void
+    {
+        $this->getConnection()->disableForeignKeys();
+    }
+
+    /**
+     * @return void
+     */
+    public function enableForeignKeys(): void
+    {
+        $this->getConnection()->enableForeignKeys();
+    }
+
+    /**
      * @return \RepositoryTester\Repository\Connection\ConnectionInterface
      */
     private function getConnection(): ConnectionInterface
