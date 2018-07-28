@@ -26,6 +26,20 @@ trait RepositoryAssertTrait
      * @param string $repositoryName
      * @param array  $expected
      */
+    protected function assertRepositoryDoesNotHaveRow(string $repositoryName, array $expected): void
+    {
+        Assert::assertNotEmpty($expected, 'Expected data is empty');
+        Assert::assertEquals(
+            0,
+            $this->getRowCount($repositoryName, ['where' => $expected]),
+            'The data exist in the database'
+        );
+    }
+
+    /**
+     * @param string $repositoryName
+     * @param array  $expected
+     */
     protected function assertRepositoryHasRows(string $repositoryName, array $expected): void
     {
         foreach ($expected as $row) {
