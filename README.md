@@ -1,6 +1,6 @@
 # Repository Tester
 
-Repository tester is a set of tools that will help you test your repositories. 
+Repository tester is a set of tools (Data factory, DB client) that will help you test your repositories. 
 
 ## Usage
 In your `composer.json` file:
@@ -20,6 +20,62 @@ In your `composer.json` file:
 - install or update composer
 ```sh
 $ composer install "piobuddev/repository-tester"
+```
+
+One way to integrate `Repository Tester` with your tests is through [PHPUnit listener](https://phpunit.de/manual/6.5/en/extending-phpunit.html)
+
+Example:
+```php
+use PHPUnit\Framework\Test;
+use PHPUnit\Framework\TestListener;
+use PHPUnit\Framework\TestListenerDefaultImplementation;
+   
+class RepositoryAwareTestListener implements TestListener
+{
+    use TestListenerDefaultImplementation;
+    
+    public function __construct(array $config)
+    {
+        $this->config = $config;
+    }    
+        
+    public function startTest(Test $test)
+    {
+        if ($test instanceof RepositoryAwareInterface) {
+            
+            // ...get the attributes from the config...
+            
+            $connection = new DbUnitConnectionAdapter(
+                new PDO($dns, $username, $password, $options)
+            );
+            
+            $test->setConnection($connection);
+        }
+    }
+}
+```
+
+```php
+class SomeTest implements RepositoryAwareInterface
+{
+    use RepositoryAssertTrait;
+    
+    public function tearDown()
+    {
+        $this->clearTables();
+        parent::tearDown();
+    }
+    
+    public function testSomething()
+    {
+        $data = ['tableName' => ['column1' => 'value'1]];
+        $insertedDate = $this->insert($data);
+        
+        //... do something
+    }
+    
+}
+
 ```
 
 ## Development setup:
