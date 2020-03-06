@@ -143,7 +143,7 @@ class DbUnitConnectionAdapter extends DefaultConnection implements ConnectionInt
             function ($row) {
                 return $row[0];
             },
-            $this->getConnection()->query($query)->fetchAll()
+            $this->getConnection()->query($query)->fetchAll(\PDO::FETCH_NUM)
         );
     }
 }
