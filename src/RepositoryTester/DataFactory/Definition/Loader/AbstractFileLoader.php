@@ -26,7 +26,7 @@ abstract class AbstractFileLoader extends AbstractLoader
     public function __construct(ContainerInterface $container, string $path)
     {
         if (!file_exists($path)) {
-            throw new UnexpectedValueException('Definitions path does not exist');
+            throw new UnexpectedValueException(sprintf('Definitions path: `%s` does not exist', $path));
         }
 
         $this->path = $path;

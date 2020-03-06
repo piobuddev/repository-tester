@@ -67,9 +67,30 @@ class DbUnitConnectionAdapter extends DefaultConnection implements ConnectionInt
      */
     public function clear(array $entities = null): ConnectionInterface
     {
+        if ($this->getConnection()->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'mysql') {
+            $baseTables = $this->getBaseTables();
+            $entities   = $entities !== null ? array_intersect($baseTables, $entities) : $baseTables;
+        }
+
         (new Factory())::TRUNCATE()->execute($this, $this->createDataSet($entities));
 
         return $this;
+    }
+
+    /**
+     * @return void
+     */
+    public function disableForeignKeys(): void
+    {
+        $this->connection->exec('SET FOREIGN_KEY_CHECKS=0;');
+    }
+
+    /**
+     * @return void
+     */
+    public function enableForeignKeys(): void
+    {
+        $this->connection->exec('SET FOREIGN_KEY_CHECKS=1;');
     }
 
     /**
@@ -110,18 +131,19 @@ class DbUnitConnectionAdapter extends DefaultConnection implements ConnectionInt
     }
 
     /**
-     * @return void
+     * Returns an array of base table names excluding views.
+     *
+     * @return array
      */
-    public function disableForeignKeys(): void
+    private function getBaseTables(): array
     {
-        $this->connection->exec('SET FOREIGN_KEY_CHECKS=0;');
-    }
+        $query = 'SHOW FULL TABLES WHERE TABLE_TYPE LIKE \'BASE TABLE\';';
 
-    /**
-     * @return void
-     */
-    public function enableForeignKeys(): void
-    {
-        $this->connection->exec('SET FOREIGN_KEY_CHECKS=1;');
+        return array_map(
+            function ($row) {
+                return $row[0];
+            },
+            $this->getConnection()->query($query)->fetchAll()
+        );
     }
 }

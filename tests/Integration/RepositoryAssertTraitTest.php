@@ -5,7 +5,7 @@ namespace RepositoryTester\Test;
 use RepositoryTester\RepositoryAssertTrait;
 use RepositoryTester\Test\Helpers\AbstractRepositoryTestCase;
 
-class RepositoryAssertTraitTestCase extends AbstractRepositoryTestCase
+class RepositoryAssertTraitTest extends AbstractRepositoryTestCase
 {
     use RepositoryAssertTrait;
 
