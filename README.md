@@ -68,16 +68,41 @@ class SomeTest implements RepositoryAwareInterface
     
     public function testSomething()
     {
-        $data = ['tableName' => ['column1' => 'value'1]];
-        $insertedDate = $this->insert($data);
+        $data = ['tableName' => ['column1' => 'value']];
+        $insertedData = $this->insert($data);
         
         //... do something
     }
     
-}
+    public function testSomethingElse()
+    {
+        $jessicaHyde = ['first_name' => 'Jessica', 'last_name' => 'Hyde'];
+    
+        $this->add(self::DB_TABLE, 5); //adds 5 rows defined by definitions.
+        $this->add(self::DB_TABLE, 1, $jessicaHyde);
 
+        $this->assertRowCount(self::DB_TABLE, 6);
+        $this->assertRepositoryHasRow(self::DB_TABLE, $jessicaHyde);
+    }   
+}
 ```
 
+Data Factory php closure definitions example `definitions.php`
+```php
+<?php
+
+return [
+    'table_name' => function (\Faker\Generator $faker, array $arguments = []) {
+        return array_merge(
+            [
+                'first_name' => $faker->firstName,
+                'last_name'  => $faker->lastName,
+            ],
+            $arguments
+        );
+    },
+];
+```
 ## Development setup:
 ### Getting Started
 
